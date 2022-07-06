@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.jeecg.modules.games.mapper.RoomsMapper">
+    <insert id="insertRoomUser">
+        insert into cg_rooms_users
+        (id,room_id,user_id,`sequence`)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (replace(uuid(),'-',''),#{item.roomId},#{item.userId},#{item.sequence})
+        </foreach>
+    </insert>
+    <insert id="insertInvitationLog">
+        insert into cg_invitation_log
+        (id,room_id,user_id)
+        values
+        (replace(uuid(),'-',''),#{roomId},#{userId})
+    </insert>
+    <update id="updateRoomsStatus">
+        update cg_rooms set status = #{status} where url = #{roomUrl}
+    </update>
+    <update id="updateUserName">
+        update sys_user set username = #{username} where id = #{id}
+    </update>
+    <update id="updatePassword">
+        update sys_user set password = #{password} where id = #{userId}
+    </update>
+    <delete id="deleteInviteLog">
+        delete from cg_invitation_log where room_id = #{roomId}
+    </delete>
+
+
+    <select id="getRoomDetail" resultType="org.jeecg.modules.games.vo.CgRoomsDetailVO">
+        select
+        cgr.id,cgr.room_name,cgr.start_time,cgr.turn_time,cgr.theme,cgr.is_copy,cgr.is_public,cgr.people_number,cgr.is_custom,cgr.url,cgr.homeowner homeownerId,cgr.password,cgr.status,
+        su.nickname homeownerName
+        from cg_rooms cgr,sys_user su where su.id = cgr.homeowner and cgr.id = #{roomId}
+    </select>
+    <select id="getGamesRecord" resultType="org.jeecg.modules.games.vo.CgRoomsDetailVO">
+        select
+        cgr.id,cgr.room_name,cgr.start_time,cgr.turn_time,cgr.theme,cgr.is_copy,cgr.is_public,cgr.people_number,cgr.is_custom,cgr.url,cgr.homeowner homeownerId,cgr.password,cgr.status,
+        su.nickname homeownerName
+        from cg_rooms cgr,sys_user su where su.id = cgr.homeowner and cgr.id in
+        (select room_id from cg_rooms_users where user_id = #{userId}) order by cgr.start_time desc
+    </select>
+    <select id="getInvitationRecord" resultType="org.jeecg.modules.games.vo.CgRoomsDetailVO">
+        (select
+        cgr.id,cgr.room_name,cgr.start_time,cgr.turn_time,cgr.theme,cgr.is_copy,cgr.is_public,cgr.people_number,cgr.is_custom,cgr.url,cgr.homeowner homeownerId,cgr.password,cgr.status,
+        su.nickname homeownerName
+        from cg_rooms cgr,sys_user su where su.id = cgr.homeowner and cgr.id in
+        (select room_id from cg_invitation_log where user_id = #{userId}) order by cgr.start_time desc)
+        UNION
+        (
+        select
+        cgr.id,cgr.room_name,cgr.start_time,cgr.turn_time,cgr.theme,cgr.is_copy,cgr.is_public,cgr.people_number,cgr.is_custom,cgr.url,cgr.homeowner homeownerId,cgr.password,cgr.status,
+        su.nickname homeownerName
+        from cg_rooms cgr,sys_user su where su.id = cgr.homeowner and cgr.id in
+        (select id from cg_rooms where homeowner = #{userId}) order by cgr.start_time desc)  order by start_time desc
+    </select>
+    <select id="getRoomDetailByUrlAndHomeowner" resultType="org.jeecg.modules.games.entity.CgRooms">
+        select * from cg_rooms where url = #{url} and homeowner = #{homeowner} order by start_time desc limit 1
+    </select>
+    <select id="getRoomDetailByHomeowner" resultType="org.jeecg.modules.games.entity.CgRooms">
+        select * from cg_rooms where homeowner = #{homeowner} and status = 1;
+    </select>
+    <select id="getUserInfoById" resultType="org.jeecg.modules.system.vo.SysUserInfoVo">
+        select * from sys_user where id = #{userId}
+    </select>
+    <select id="getRoomUsers" resultType="org.jeecg.modules.games.entity.CgRoomsUsers">
+        select * from cg_rooms_users where room_id = #{roomId} order by sequence asc
+    </select>
+    <select id="getSequence" resultType="java.lang.Integer">
+        select sequence from cg_rooms_users where room_id = #{roomId} and user_id = #{userId}
+    </select>
+    <select id="inRoomFlagByRoomIdUserId" resultType="java.lang.Integer">
+        select count(1) from cg_rooms_users where room_id = #{roomId} and user_id = #{userId}
+    </select>
+    <select id="getInviteLog" resultType="java.lang.Integer">
+        SELECT a.count+b.count count from
+        (select
+                count(1) count
+                from cg_rooms cgr,sys_user su where su.id = cgr.homeowner and cgr.id in
+                (select room_id from cg_invitation_log where user_id = #{userId}) order by cgr.start_time desc) a,
+        (select
+        count(1) count
+        from cg_rooms cgr,sys_user su where su.id = cgr.homeowner and cgr.id in
+        (select id from cg_rooms where homeowner = #{userId} and status != 3) order by cgr.start_time desc) b
+    </select>
+    <select id="getInvitationLog" resultType="java.lang.Integer">
+        select count(1) from cg_invitation_log where user_id = #{userId} and room_id = #{roomId}
+    </select>
+    <select id="getUserInfoByEmail" resultType="org.jeecg.modules.system.vo.SysUserInfoVo">
+        select * from sys_user where email = #{email}
+    </select>
+</mapper>

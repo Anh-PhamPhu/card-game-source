@@ -1,0 +1,54 @@
+/* @font-face {
+	font-family: uniicons;
+	font-weight: normal;
+	font-style: normal;
+	src: url('~@/static/uni.ttf') format('truetype');
+} */
+@font-face {
+  font-family: 'iconfont';  /* Project id 3248750 */
+  src: url('//at.alicdn.com/t/font_3248750_k03zhsyebr.woff2?t=1647828210761') format('woff2'),
+       url('//at.alicdn.com/t/font_3248750_k03zhsyebr.woff?t=1647828210761') format('woff'),
+       url('//at.alicdn.com/t/font_3248750_k03zhsyebr.ttf?t=1647828210761') format('truetype');
+}
+.iconfont{font-family:"iconfont"!important;font-size:16px;font-style:normal;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+.icon-01:before {
+  content: "\e601";
+}
+
+.icon-shijian:before {
+  content: "\e64d";
+}
+
+*{margin: 0; padding: 0; font-weight: normal;font-family: "Noto Sans JP";}
+html, body, #app, .main{width:100%; min-width: 320px; padding: 0; margin: 0;}
+body{background-color:#83c3c5;width:100%;height:100%;font-size:28px;line-height:1.8;font-family:'PingFang-Medium'}
+
+.clearfix::after{clear:both;content:".";display:block;height:0;visibility:hidden}
+.clearfix{height:0}.center{-webkit-justify-content:center;justify-content:center;-webkit-align-items:center;align-items:center}
+.text-bottom{-webkit-justify-content:center;justify-content:center;-webkit-align-items:flex-end;align-items:flex-end}
+.text-top{-webkit-justify-content:center;justify-content:center;-webkit-align-items:flex-start;align-items:flex-start}
+.text-left{-webkit-align-items:center;align-items:center;text-align:left}
+.text-right{-webkit-align-items:center;align-items:center;text-align:right}
+.text-space-between{-webkit-justify-content:space-between;justify-content:space-between}
+.pure_top{width:100%;height:400rpx;position:relative;z-index:0;overflow:hidden}
+.pure_top::after{content:'';width:110%;height:400rpx;position:absolute;left:-5%;top:0;border-radius:0 0 25% 25%;background:#160a56}
+.line{margin:80rpx auto 50rpx auto;height:1px;background:linear-gradient(244deg,rgba(255,255,255,0) 0,rgba(232,232,232,0.5) 50%,rgba(255,255,255,0) 100%)}
+.row{display:-webkit-flex;display:flex;flex-direction:row}
+.row-center{justify-content:center}
+.row-right{justify-content:flex-end}
+.column{display:-webkit-flex;display:flex;flex-direction:column}
+.column-center{align-items:center}
+.row-flex{flex: 1;}
+.kong91{height:91px}
+button:hover{
+	background: #50A0A3 !important;
+	color: #fff !important;
+}
+
+
+@media(max-width:460px){
+    body{height:auto}
+    .m-column{display:-webkit-flex;display:flex;flex-direction:column}
+    .m-row{display:-webkit-flex;display:flex;flex-direction:row}
+    .m-kong{display: none;}
+}

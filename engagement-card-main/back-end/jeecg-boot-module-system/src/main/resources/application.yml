@@ -1,0 +1,49 @@
+spring:
+  profiles:
+    active: prod
+swagger:
+  production: false
+  basic:
+    enable: false
+    username: jeecg
+    password: jeecg1314
+# 第三方登录
+justauth:
+  enabled: true
+  type:
+    GITHUB:
+      client-id: 0277e675495f14a4a183
+      client-secret: ??
+      redirect-uri: http://sso.test.com:8080/jeecg-boot/thirdLogin/github/callback
+    WECHAT_ENTERPRISE:
+      client-id: wwc2a8c8b19c201bcc
+      client-secret: ??
+      redirect-uri: http://sso.test.com:8080/jeecg-boot/thirdLogin/wechat_enterprise/callback
+      agent-id: 1000002
+    DINGTALK:
+      client-id: dingoa33vjqxrbyidnmgwo
+      client-secret: ？？
+      redirect-uri: http://sso.test.com:8080/jeecg-boot/thirdLogin/dingtalk/callback
+    facebook:
+      #client-id: 570411244448149
+      client-id: 587576312704705
+      #client-secret: fd5ca5064668dc10d281f12163e8831d
+      client-secret: af4110daf4d4076b7ea6c3b0f96408b3
+      redirect-uri: https://cardgame.unismart.dev/dev/jeecg-boot/oauth/callback/facebook
+    google:
+#      590575117432-tv57ocma40fnoq578ul7ts3d89b1s5am.apps.googleusercontent.com
+      #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
+      client-id: 590575117432-tv57ocma40fnoq578ul7ts3d89b1s5am.apps.googleusercontent.com
+      client-secret: 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
+      redirect-uri: https://cardgame.unismart.dev/dev/jeecg-boot/oauth/callback/google
+  cache:
+    type: default
+    prefix: 'demo::'
+    timeout: 1h
+#第三方登录成功回调之后的跳转地址
+redirect:
+  url : https://yiju.lanyanceshi.com/cardgame/#/login
+
+Stripe:
+#  apikey: sk_test_51KNpPIH6oY2NyzIRzBrUQtI6vE19A1AYqw1XNMzRQMgYu5FV13Myz7WdsiFErGKFYwwtL86QHkBnj1vzAqqzrqIs00B3f8hJWP
+   apikey: sk_test_51KttzDJynwYQPikFCXTg8Se1sFkQMe25r8DGHvupHqEZP49Mhw6rXBpjBtUDH0lzLJSBCj43aAeE6wW6ld7xjPz300waf7hxaE
